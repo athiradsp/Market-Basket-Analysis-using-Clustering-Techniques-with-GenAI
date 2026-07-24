@@ -24,7 +24,6 @@ def home():
     return jsonify({
         "status": "online",
         "project": "Market Basket Analysis using Clustering Techniques with GenAI",
-        "course": "CSM 355",
         "message": "Streamlit frontend deployed. Serverless ML API active."
     })
 

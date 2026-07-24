@@ -1,4 +1,4 @@
-# Market Basket Analysis using Clustering Techniques with GenAI (CSM 355)
+# Market Basket Analysis using Clustering Techniques with GenAI
 
 An end-to-end modular Python web application built with Streamlit for Market Basket Analysis, Customer Segmentation, Association Rule Mining, and Generative AI Business Intelligence.
 
@@ -35,7 +35,7 @@ An end-to-end modular Python web application built with Streamlit for Market Bas
    - Tab 2: Customer Clustering
    - Tab 3: Association Rule Mining & Network Graph
    - Tab 4: GenAI BI Report & TXT Export
-   - Tab 5: Viva Voce Prep & Formula Guide (CSM 355)
+   - Tab 5: Technical Documentation & Mathematical Formula Guide
 
 ---
 
@@ -56,7 +56,7 @@ The application will launch in your browser at `http://localhost:8501`.
 
 ---
 
-## 🎓 Mathematical Formulas for Viva Voce (Course CSM 355)
+## 📖 Mathematical Formulas & Metrics Reference
 
 - **Silhouette Score**:
   $$S(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$

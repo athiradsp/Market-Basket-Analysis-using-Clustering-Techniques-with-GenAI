@@ -30,7 +30,6 @@ def format_llm_payload(cluster_summary_df: pd.DataFrame, top_rules_df: pd.DataFr
         str: Serialized JSON payload string formatted for LLM prompts.
     """
     payload: Dict[str, Any] = {
-        "course_code": "CSM 355",
         "project_title": "Market Basket Analysis using Clustering Techniques & GenAI",
         "cluster_segments": [],
         "top_association_rules": []
@@ -85,7 +84,7 @@ def generate_ai_report(
     """
     system_prompt = (
         "You are an expert Chief Data Officer and Senior Retail Operations Strategist for an e-commerce enterprise. "
-        "You are evaluating machine learning outputs from a Market Basket Analysis & Customer Segmentation study (Course CSM 355).\n\n"
+        "You are evaluating machine learning outputs from a Market Basket Analysis & Customer Segmentation platform.\n\n"
         "Your goal is to transform the provided JSON payload (containing customer RFM cluster centroids and association rules) "
         "into an actionable, executive-ready Business Intelligence & Retail Strategy Report.\n\n"
         "Your report MUST include the following 4 structured sections:\n"
@@ -179,7 +178,7 @@ def _generate_offline_heuristic_report(json_payload: str) -> str:
 
     report_lines = []
     report_lines.append("# 📊 Executive Business Intelligence & GenAI Insights Report")
-    report_lines.append("**Course Code:** CSM 355 | **Module:** Market Basket Analysis & Customer Segmentation\n")
+    report_lines.append("**Module:** Market Basket Analysis & Customer Segmentation Platform\n")
     report_lines.append("> *Notice: Generated using the Built-in Intelligent Rule Synthesizer Engine (Offline Mode).* \n")
 
     # Section 1: Persona Classifications

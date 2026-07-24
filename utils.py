@@ -273,10 +273,10 @@ def plot_network_graph(rules_df: pd.DataFrame, top_n: int = 15) -> go.Figure:
 
 
 # ---------------------------------------------------------
-# VIVA VOCE EXAMINATION CHEAT SHEET CONTENT (CSM 355)
+# TECHNICAL DOCUMENTATION & FAQ CONTENT
 # ---------------------------------------------------------
 
-VIVA_QUESTIONS = [
+TECHNICAL_FAQ = [
     {
         "category": "Market Basket Analysis & Association Rules",
         "question": "What is the mathematical definition of Support, Confidence, and Lift?",

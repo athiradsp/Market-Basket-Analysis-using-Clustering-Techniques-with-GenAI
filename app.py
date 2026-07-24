@@ -111,7 +111,7 @@ st.markdown("""
         <div>
             <h1 style="margin: 0; font-size: 28px; color: #F8FAFC;">🛒 Market Basket Analysis with Clustering & GenAI</h1>
             <p style="margin: 4px 0 0 0; color: #38BDF8; font-size: 15px; font-weight: 500;">
-                Course Code: CSM 355 | Practical Examination & Viva Voce Demonstration
+                Production E-Commerce Customer Analytics & Retail Intelligence Platform
             </p>
         </div>
         <div style="text-align: right;">
@@ -254,7 +254,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "🎯 2. Customer Clustering",
     "🛒 3. Association Mining (Apriori vs FP)",
     "🤖 4. GenAI BI Report Generator",
-    "🎓 5. Viva Voce Examination Guide"
+    "📖 5. Technical Documentation & Guide"
 ])
 
 
@@ -450,11 +450,11 @@ with tab4:
 
 
 # =========================================================
-# TAB 5: VIVA VOCE EXAMINATION GUIDE (CSM 355)
+# TAB 5: TECHNICAL DOCUMENTATION & GUIDE
 # =========================================================
 with tab5:
-    st.subheader("🎓 Course CSM 355: Viva Voce Examination Cheat Sheet & Theory Guide")
-    st.info("Use this interactive reference during your practical examination & viva defense.")
+    st.subheader("📖 Technical Documentation & Algorithm Reference Guide")
+    st.info("Interactive technical documentation covering core mathematical metrics, clustering algorithms, and association rule mining theory.")
 
     st.markdown("### 🧮 1. Mathematical Formulas & Core Metrics Cheat Sheet")
     
@@ -469,8 +469,8 @@ with tab5:
     st.latex(r"\text{Lift}(A \rightarrow B) = \frac{\text{Confidence}(A \rightarrow B)}{\text{Support}(B)} = \frac{P(A \cap B)}{P(A) \cdot P(B)}")
 
     st.markdown("---")
-    st.markdown("### ❓ 2. Viva Voce Examiner Questions & Standard Answers")
+    st.markdown("### ❓ 2. Technical Architecture & Machine Learning FAQs")
 
-    for idx, q_data in enumerate(utils.VIVA_QUESTIONS, 1):
+    for idx, q_data in enumerate(utils.TECHNICAL_FAQ, 1):
         with st.expander(f"Q{idx} [{q_data['category']}]: {q_data['question']}"):
-            st.markdown(f"**Standard Viva Response:**\n\n{q_data['answer']}")
+            st.markdown(f"**Technical Explanation:**\n\n{q_data['answer']}")
