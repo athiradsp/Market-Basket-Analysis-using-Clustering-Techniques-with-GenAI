@@ -126,6 +126,38 @@ def clean_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict[str, Any]]:
     # Defensive copy
     cleaned = df.copy()
 
+    # Step 0: Column name normalization & auto-mapping
+    col_map = {col: str(col).strip() for col in cleaned.columns}
+    cleaned.rename(columns=col_map, inplace=True)
+
+    standard_map = {}
+    for col in cleaned.columns:
+        norm = str(col).lower().replace("_", "").replace(" ", "").replace("-", "")
+        if norm in ['invoiceno', 'invoice', 'invoicenumber', 'invno']:
+            standard_map[col] = 'InvoiceNo'
+        elif norm in ['stockcode', 'itemcode', 'productcode', 'sku', 'code']:
+            standard_map[col] = 'StockCode'
+        elif norm in ['description', 'desc', 'itemdescription', 'productname', 'item', 'product']:
+            standard_map[col] = 'Description'
+        elif norm in ['quantity', 'qty', 'units', 'count', 'amount']:
+            standard_map[col] = 'Quantity'
+        elif norm in ['invoicedate', 'date', 'timestamp', 'transactiondate', 'time']:
+            standard_map[col] = 'InvoiceDate'
+        elif norm in ['unitprice', 'price', 'rate', 'itemprice', 'cost']:
+            standard_map[col] = 'UnitPrice'
+        elif norm in ['customerid', 'customer', 'userid', 'clientid', 'custid', 'user']:
+            standard_map[col] = 'CustomerID'
+    
+    cleaned.rename(columns=standard_map, inplace=True)
+
+    required_cols = ["InvoiceNo", "StockCode", "Description", "Quantity", "InvoiceDate", "UnitPrice", "CustomerID"]
+    missing = [c for c in required_cols if c not in cleaned.columns]
+    if missing:
+        raise ValueError(
+            f"Uploaded CSV is missing required column(s): {', '.join(missing)}. "
+            f"Expected columns: InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID."
+        )
+
     # Step 1: Handle missing values
     missing_cust = cleaned["CustomerID"].isna().sum()
     missing_desc = cleaned["Description"].isna().sum()

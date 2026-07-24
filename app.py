@@ -145,14 +145,37 @@ with st.sidebar:
         df_raw = data_loader.generate_synthetic_data(num_records=num_records)
     else:
         uploaded_file = st.file_uploader("Upload Retail CSV Dataset", type=["csv"])
+        
+        # Download Sample Template CSV Button
+        sample_df = data_loader.generate_synthetic_data(num_records=100)
+        sample_csv_data = sample_df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="📥 Download Sample CSV Template",
+            data=sample_csv_data,
+            file_name="sample_retail_data.csv",
+            mime="text/csv",
+            help="Click to download a valid sample CSV dataset template to test uploading."
+        )
+
         if uploaded_file is not None:
             try:
-                df_raw = pd.read_csv(uploaded_file)
-                st.success(f"Uploaded CSV loaded ({len(df_raw)} rows).")
+                # Robust multi-encoding reader
+                try:
+                    df_raw = pd.read_csv(uploaded_file)
+                except UnicodeDecodeError:
+                    uploaded_file.seek(0)
+                    df_raw = pd.read_csv(uploaded_file, encoding="latin1")
+                except Exception:
+                    uploaded_file.seek(0)
+                    df_raw = pd.read_csv(uploaded_file, encoding="ISO-8859-1")
+                
+                st.success(f"✅ Uploaded CSV loaded ({len(df_raw)} rows, {len(df_raw.columns)} columns).")
             except Exception as e:
-                st.error(f"Error loading CSV file: {e}")
+                st.error(f"Error reading CSV file: {e}")
+                st.info("Using fallback synthetic dataset in the interim.")
+                df_raw = data_loader.generate_synthetic_data(num_records=1000)
         else:
-            st.info("Awaiting file upload. Using fallback synthetic data in the interim.")
+            st.info("Awaiting file upload. Using built-in synthetic data in the interim.")
             df_raw = data_loader.generate_synthetic_data(num_records=1000)
 
     st.divider()
@@ -207,8 +230,14 @@ with st.sidebar:
 # ---------------------------------------------------------
 # DATA PIPELINE EXECUTION
 # ---------------------------------------------------------
-# Step 1: Clean Data
-df_cleaned, audit_stats = data_loader.clean_data(df_raw)
+try:
+    # Step 1: Clean Data & Validate Schema
+    df_cleaned, audit_stats = data_loader.clean_data(df_raw)
+except Exception as e:
+    st.error(f"⚠️ CSV Validation Notice: {e}")
+    st.info("💡 Tip: Use the 'Download Sample CSV Template' button in the sidebar to get a ready-to-use valid dataset.")
+    df_raw = data_loader.generate_synthetic_data(num_records=1000)
+    df_cleaned, audit_stats = data_loader.clean_data(df_raw)
 
 # Step 2: Compute RFM Metrics
 rfm_raw, rfm_scaled = data_loader.compute_rfm(df_cleaned)
