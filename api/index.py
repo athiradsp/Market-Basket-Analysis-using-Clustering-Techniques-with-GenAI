@@ -28,6 +28,11 @@ def home():
         "message": "Streamlit frontend deployed. Serverless ML API active."
     })
 
+@app.route('/favicon.ico', methods=['GET'])
+@app.route('/favicon.png', methods=['GET'])
+def favicon():
+    return '', 204
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze():
     try:
