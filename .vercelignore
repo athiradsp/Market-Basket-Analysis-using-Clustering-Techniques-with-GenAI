@@ -9,3 +9,8 @@ __pycache__
 venv/
 *.log
 FINAL_PROJECT_REPORT_CSM355.txt
+app.py
+requirements-streamlit.txt
+README.md
+*.csv
+*.xlsx

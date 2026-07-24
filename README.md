@@ -45,8 +45,8 @@ An end-to-end modular Python web application built with Streamlit for Market Bas
 # 1. Clone or navigate to project directory
 cd MLproject
 
-# 2. Install dependencies
-pip install -r requirements.txt
+# 2. Install dependencies for local Streamlit dashboard
+pip install -r requirements-streamlit.txt
 
 # 3. Launch Streamlit Dashboard
 streamlit run app.py
