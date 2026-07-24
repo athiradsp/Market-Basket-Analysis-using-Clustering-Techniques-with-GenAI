@@ -1,0 +1,11 @@
+.git
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+*.log
+FINAL_PROJECT_REPORT_CSM355.txt
