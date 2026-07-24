@@ -159,17 +159,38 @@ with st.sidebar:
 
         if uploaded_file is not None:
             try:
-                # Robust multi-encoding reader
-                try:
-                    df_raw = pd.read_csv(uploaded_file)
-                except UnicodeDecodeError:
-                    uploaded_file.seek(0)
-                    df_raw = pd.read_csv(uploaded_file, encoding="latin1")
-                except Exception:
-                    uploaded_file.seek(0)
-                    df_raw = pd.read_csv(uploaded_file, encoding="ISO-8859-1")
+                # Ultra-robust multi-encoding & delimiter fallback with bad-line skipping
+                df_raw = None
+                for encoding in ['utf-8', 'latin1', 'ISO-8859-1', 'cp1252']:
+                    for sep in [',', ';', '\t', '|']:
+                        try:
+                            uploaded_file.seek(0)
+                            df_temp = pd.read_csv(
+                                uploaded_file,
+                                sep=sep,
+                                encoding=encoding,
+                                on_bad_lines='skip',
+                                engine='c' if sep == ',' else 'python'
+                            )
+                            if len(df_temp.columns) >= 3 and len(df_temp) > 0:
+                                df_raw = df_temp
+                                break
+                        except Exception:
+                            continue
+                    if df_raw is not None:
+                        break
                 
-                st.success(f"✅ Uploaded CSV loaded ({len(df_raw)} rows, {len(df_raw.columns)} columns).")
+                if df_raw is None:
+                    uploaded_file.seek(0)
+                    df_raw = pd.read_csv(uploaded_file, on_bad_lines='skip', engine='python', encoding_errors='ignore')
+
+                st.success(f"✅ Uploaded CSV loaded ({len(df_raw):,} rows, {len(df_raw.columns)} columns).")
+
+                # Optimize performance for large datasets (> 50k rows)
+                if len(df_raw) > 50000:
+                    st.info(f"⚡ Large dataset detected ({len(df_raw):,} rows). Processing first 50,000 rows for optimal interactive speed.")
+                    df_raw = df_raw.head(50000)
+
             except Exception as e:
                 st.error(f"Error reading CSV file: {e}")
                 st.info("Using fallback synthetic dataset in the interim.")
